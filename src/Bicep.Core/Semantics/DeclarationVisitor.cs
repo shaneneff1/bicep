@@ -107,6 +107,13 @@ namespace Bicep.Core.Semantics
                 DeclareSymbol(itemVariableSymbol);
             }
 
+            var indexVariable = syntax.IndexVariable;
+            if(indexVariable is not null)
+            {
+                var indexVariableSymbol = new LocalVariableSymbol(this.context, indexVariable.Name.IdentifierName, indexVariable);
+                DeclareSymbol(indexVariableSymbol);
+            }
+
             // visit the children
             base.VisitForSyntax(syntax);
 
