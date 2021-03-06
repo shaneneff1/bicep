@@ -20,7 +20,7 @@ namespace Bicep.Core.Syntax
         {
             AssertTokenType(openSquare, nameof(openSquare), TokenType.LeftSquare);
             AssertKeyword(forKeyword, nameof(forKeyword), LanguageConstants.ForKeyword);
-            AssertSyntaxType(itemVariableOrVariableBlock, nameof(itemVariableOrVariableBlock), typeof(LocalVariableSyntax), typeof(ForVariableBlockSyntax));
+            AssertSyntaxType(itemVariableOrVariableBlock, nameof(itemVariableOrVariableBlock), typeof(LocalVariableSyntax), typeof(ForVariableBlockSyntax), typeof(SkippedTriviaSyntax));
             AssertSyntaxType(inKeyword, nameof(inKeyword), typeof(Token), typeof(SkippedTriviaSyntax));
             AssertKeyword(inKeyword as Token, nameof(inKeyword), LanguageConstants.InKeyword);
             AssertSyntaxType(colon, nameof(colon), typeof(Token), typeof(SkippedTriviaSyntax));
@@ -58,10 +58,11 @@ namespace Bicep.Core.Syntax
 
         public override TextSpan Span => TextSpan.Between(this.OpenSquare, this.CloseSquare);
 
-        public LocalVariableSyntax ItemVariable => this.VariableSection switch
+        public LocalVariableSyntax? ItemVariable => this.VariableSection switch
         {
             LocalVariableSyntax itemVariable => itemVariable,
             ForVariableBlockSyntax block => block.ItemVariable,
+            SkippedTriviaSyntax => null,
             _ => throw new NotImplementedException($"Unexpected loop variable section type '{this.VariableSection.GetType().Name}'.")
         };
 
@@ -69,6 +70,7 @@ namespace Bicep.Core.Syntax
         {
             LocalVariableSyntax itemVariable => null,
             ForVariableBlockSyntax block => block.IndexVariable,
+            SkippedTriviaSyntax => null,
             _ => throw new NotImplementedException($"Unexpected loop variable section type '{this.VariableSection.GetType().Name}'.")
         };
     }

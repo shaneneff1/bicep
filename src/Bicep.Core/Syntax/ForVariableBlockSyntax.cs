@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using Bicep.Core.Parsing;
@@ -34,9 +34,6 @@ namespace Bicep.Core.Syntax
 
         public override TextSpan Span => TextSpan.Between(this.OpenParen, this.CloseParen);
 
-        public override void Accept(ISyntaxVisitor visitor)
-        {
-            throw new System.NotImplementedException();
-        }
+        public override void Accept(ISyntaxVisitor visitor) => visitor.VisitForVariableBlockSyntax(this);
     }
 }

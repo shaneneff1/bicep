@@ -919,6 +919,11 @@ namespace Bicep.Core.Diagnostics
                 "Parameter modifiers are deprecated and will be removed in a future release. Use decorators instead (see https://aka.ms/BicepSpecParams for examples).",
                 DiagnosticLabel.Deprecated);
 
+            public ErrorDiagnostic ExpectedLoopItemIdentifierOrVariableBlockStart() => new(
+                TextSpan,
+                "BCP162",
+                "Expected a loop item variable identifier or \"(\" at this location.");
+
             public ErrorDiagnostic ExpectedLoopIndexIdentifier() => new(
                 TextSpan,
                 "BCP162",

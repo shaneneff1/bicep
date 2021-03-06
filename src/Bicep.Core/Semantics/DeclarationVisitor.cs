@@ -101,8 +101,11 @@ namespace Bicep.Core.Semantics
              * break name binding at the global namespace level
              */
             var itemVariable = syntax.ItemVariable;
-            var itemVariableSymbol = new LocalVariableSymbol(this.context, itemVariable.Name.IdentifierName, itemVariable);
-            DeclareSymbol(itemVariableSymbol);
+            if (itemVariable is not null)
+            {
+                var itemVariableSymbol = new LocalVariableSymbol(this.context, itemVariable.Name.IdentifierName, itemVariable);
+                DeclareSymbol(itemVariableSymbol);
+            }
 
             // visit the children
             base.VisitForSyntax(syntax);

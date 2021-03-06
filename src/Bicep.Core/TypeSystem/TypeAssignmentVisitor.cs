@@ -136,27 +136,49 @@ namespace Bicep.Core.TypeSystem
         public override void VisitLocalVariableSyntax(LocalVariableSyntax syntax)
             => AssignType(syntax, () =>
             {
+                // local function
+                ITypeReference GetItemType(ForSyntax @for)
+                {
+                    // get type of the loop array expression
+                    // (this shouldn't cause a stack overflow because it's a peer node of this one)
+                    var arrayExpressionType = this.typeManager.GetTypeInfo(@for.Expression);
+
+                    if (arrayExpressionType.TypeKind == TypeKind.Any || arrayExpressionType is not ArrayType arrayType)
+                    {
+                        // the array is of "any" type or the loop array expression isn't actually an array
+                        // in the former case, there isn't much we can do
+                        // in the latter case, we will let the ForSyntax type check rules produce the error for it
+                        return LanguageConstants.Any;
+                    }
+
+                    // the array expression is actually an array
+                    return arrayType.Item;
+                }
+
                 var parent = this.binder.GetParent(syntax);
                 switch (parent)
                 {
                     case ForSyntax @for when ReferenceEquals(syntax, @for.VariableSection):
                         // this local variable is a loop item variable
                         // we should return item type of the array (if feasible)
+                        return GetItemType(@for);
 
-                        // get type of the loop array expression
-                        // (this shouldn't cause a stack overflow because it's a peer node of this one)
-                        var arrayExpressionType = this.typeManager.GetTypeInfo(@for.Expression);
-
-                        if (arrayExpressionType.TypeKind == TypeKind.Any || arrayExpressionType is not ArrayType arrayType)
+                    case ForVariableBlockSyntax block when this.binder.GetParent(block) is ForSyntax @for:
+                        if(ReferenceEquals(syntax, block.ItemVariable))
                         {
-                            // the array is of "any" type or the loop array expression isn't actually an array
-                            // in the former case, there isn't much we can do
-                            // in the latter case, we will let the ForSyntax type check rules produce the error for it
-                            return LanguageConstants.Any;
+                            // the local variable is a loop item variable
+                            // return the item type of the array
+                            return GetItemType(@for);
                         }
 
-                        // the array expression is actually an array
-                        return arrayType.Item;
+                        if(ReferenceEquals(syntax, block.IndexVariable))
+                        {
+                            // the local variable is an index variable
+                            // index variables are always of type int
+                            return LanguageConstants.Int;
+                        }
+
+                        throw new InvalidOperationException();
 
                     default:
                         throw new InvalidOperationException($"{syntax.GetType().Name} at {syntax.Span} has an unexpected parent of type {parent?.GetType().Name}");

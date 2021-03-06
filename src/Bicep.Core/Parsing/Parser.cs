@@ -718,7 +718,7 @@ namespace Bicep.Core.Parsing
         {
             var identifierOrSkipped = this.WithRecovery(
                 () => Identifier(errorFunc),
-                RecoveryFlags.None,
+                flags,
                 terminatingTypes);
 
             switch (identifierOrSkipped)
@@ -921,8 +921,15 @@ namespace Bicep.Core.Parsing
         {
             var openBracket = this.Expect(TokenType.LeftSquare, b => b.ExpectedCharacter("["));
             var forKeyword = this.ExpectKeyword(LanguageConstants.ForKeyword);
-            var itemVariable = new LocalVariableSyntax(this.IdentifierWithRecovery(b => b.ExpectedLoopVariableIdentifier(), RecoveryFlags.None, TokenType.Identifier, TokenType.RightSquare, TokenType.NewLine));
-            var inKeyword = this.WithRecovery(() => this.ExpectKeyword(LanguageConstants.InKeyword), GetSuppressionFlag(itemVariable.Name), TokenType.RightSquare, TokenType.NewLine);
+            var variableSection = this.reader.Peek().Type switch
+            {
+                TokenType.Identifier => (SyntaxBase)new LocalVariableSyntax(this.Identifier(b => b.ExpectedLoopVariableIdentifier())),
+                TokenType.LeftParen => this.ForVariableBlock(),
+                _ => this.SkipEmpty(b => b.ExpectedLoopItemIdentifierOrVariableBlockStart())
+            };
+                
+            // new LocalVariableSyntax(this.IdentifierWithRecovery(b => b.ExpectedLoopVariableIdentifier(), RecoveryFlags.None, TokenType.Identifier, TokenType.RightSquare, TokenType.NewLine));
+            var inKeyword = this.WithRecovery(() => this.ExpectKeyword(LanguageConstants.InKeyword), variableSection.HasParseErrors() ? RecoveryFlags.SuppressDiagnostics : RecoveryFlags.None, TokenType.RightSquare, TokenType.NewLine);
             var expression = this.WithRecovery(() => this.Expression(ExpressionFlags.AllowComplexLiterals | ExpressionFlags.InsideColonDelimitedContext), GetSuppressionFlag(inKeyword), TokenType.Colon, TokenType.RightSquare, TokenType.NewLine);
             var colon = this.WithRecovery(() => this.Expect(TokenType.Colon, b => b.ExpectedCharacter(":")), GetSuppressionFlag(expression), TokenType.RightSquare, TokenType.NewLine);
             var body = this.WithRecovery(
@@ -931,7 +938,7 @@ namespace Bicep.Core.Parsing
                 TokenType.RightSquare, TokenType.NewLine);
             var closeBracket = this.WithRecovery(() => this.Expect(TokenType.RightSquare, b => b.ExpectedCharacter("]")), GetSuppressionFlag(body), TokenType.RightSquare, TokenType.NewLine);
 
-            return new(openBracket, forKeyword, itemVariable, inKeyword, expression, colon, body, closeBracket);
+            return new(openBracket, forKeyword, variableSection, inKeyword, expression, colon, body, closeBracket);
         }
 
         private ForVariableBlockSyntax ForVariableBlock()
