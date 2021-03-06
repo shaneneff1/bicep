@@ -190,7 +190,14 @@ namespace Bicep.Core.TypeSystem
             {
                 var errors = new List<ErrorDiagnostic>();
 
-                var loopItemType = typeManager.GetTypeInfo(syntax.VariableSection);
+                if(syntax.ItemVariable is null)
+                {
+                    // we don't have an item variable due to parse errors
+                    // no need to add additional errors
+                    return ErrorType.Empty();
+                }
+
+                var loopItemType = typeManager.GetTypeInfo(syntax.ItemVariable);
                 CollectErrors(errors, loopItemType);
 
                 var arrayExpressionType = typeManager.GetTypeInfo(syntax.Expression);
