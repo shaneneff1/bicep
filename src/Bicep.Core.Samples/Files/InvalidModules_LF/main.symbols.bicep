@@ -392,7 +392,6 @@ module expectedForKeyword2 'modulea.bicep' = [f]
 //@[7:26) Module expectedForKeyword2. Type: module. Declaration start char: 0, length: 48
 
 module expectedLoopVar 'modulea.bicep' = [for]
-//@[45:45) Local <missing>. Type: any. Declaration start char: 45, length: 0
 //@[7:22) Module expectedLoopVar. Type: module[]. Declaration start char: 0, length: 46
 
 module expectedInKeyword 'modulea.bicep' = [for x]

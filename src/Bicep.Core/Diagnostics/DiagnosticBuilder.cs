@@ -926,7 +926,7 @@ namespace Bicep.Core.Diagnostics
 
             public ErrorDiagnostic ExpectedLoopIndexIdentifier() => new(
                 TextSpan,
-                "BCP162",
+                "BCP163",
                 "Expected a loop index variable identifier at this location.");
         }
 

@@ -1155,7 +1155,7 @@ resource expectedForKeyword2 'Microsoft.Storage/storageAccounts@2019-06-01' = [f
 //@[79:80) [BCP012 (Error)] Expected the "for" keyword at this location. |f|
 
 resource expectedLoopVar 'Microsoft.Storage/storageAccounts@2019-06-01' = [for]
-//@[78:79) [BCP136 (Error)] Expected a loop item variable identifier at this location. |]|
+//@[78:78) [BCP162 (Error)] Expected a loop item variable identifier or "(" at this location. ||
 
 resource expectedInKeyword 'Microsoft.Storage/storageAccounts@2019-06-01' = [for x]
 //@[82:83) [BCP012 (Error)] Expected the "in" keyword at this location. |]|

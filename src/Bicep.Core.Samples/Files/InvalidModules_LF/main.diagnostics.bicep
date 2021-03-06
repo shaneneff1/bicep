@@ -415,7 +415,7 @@ module expectedForKeyword2 'modulea.bicep' = [f]
 //@[46:47) [BCP012 (Error)] Expected the "for" keyword at this location. |f|
 
 module expectedLoopVar 'modulea.bicep' = [for]
-//@[45:46) [BCP136 (Error)] Expected a loop item variable identifier at this location. |]|
+//@[45:45) [BCP162 (Error)] Expected a loop item variable identifier or "(" at this location. ||
 
 module expectedInKeyword 'modulea.bicep' = [for x]
 //@[49:50) [BCP012 (Error)] Expected the "in" keyword at this location. |]|

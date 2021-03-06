@@ -1992,9 +1992,7 @@ module expectedLoopVar 'modulea.bicep' = [for]
 //@[41:46)  ForSyntax
 //@[41:42)   LeftSquare |[|
 //@[42:45)   Identifier |for|
-//@[45:45)   LocalVariableSyntax
-//@[45:45)    IdentifierSyntax
-//@[45:45)     SkippedTriviaSyntax
+//@[45:45)   SkippedTriviaSyntax
 //@[45:45)   SkippedTriviaSyntax
 //@[45:45)   SkippedTriviaSyntax
 //@[45:45)   SkippedTriviaSyntax

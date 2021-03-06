@@ -5896,9 +5896,7 @@ resource expectedLoopVar 'Microsoft.Storage/storageAccounts@2019-06-01' = [for]
 //@[74:79)  ForSyntax
 //@[74:75)   LeftSquare |[|
 //@[75:78)   Identifier |for|
-//@[78:78)   LocalVariableSyntax
-//@[78:78)    IdentifierSyntax
-//@[78:78)     SkippedTriviaSyntax
+//@[78:78)   SkippedTriviaSyntax
 //@[78:78)   SkippedTriviaSyntax
 //@[78:78)   SkippedTriviaSyntax
 //@[78:78)   SkippedTriviaSyntax

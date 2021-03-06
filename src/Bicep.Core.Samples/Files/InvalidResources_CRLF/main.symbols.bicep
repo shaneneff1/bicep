@@ -1070,7 +1070,6 @@ resource expectedForKeyword2 'Microsoft.Storage/storageAccounts@2019-06-01' = [f
 //@[9:28) Resource expectedForKeyword2. Type: Microsoft.Storage/storageAccounts@2019-06-01. Declaration start char: 0, length: 81
 
 resource expectedLoopVar 'Microsoft.Storage/storageAccounts@2019-06-01' = [for]
-//@[78:78) Local <missing>. Type: any. Declaration start char: 78, length: 0
 //@[9:24) Resource expectedLoopVar. Type: Microsoft.Storage/storageAccounts@2019-06-01[]. Declaration start char: 0, length: 79
 
 resource expectedInKeyword 'Microsoft.Storage/storageAccounts@2019-06-01' = [for x]
