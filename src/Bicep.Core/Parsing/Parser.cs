@@ -917,7 +917,7 @@ namespace Bicep.Core.Parsing
             }
         }
 
-        private SyntaxBase ForExpression(ExpressionFlags expressionFlags, bool requireObjectLiteral)
+        private ForSyntax ForExpression(ExpressionFlags expressionFlags, bool requireObjectLiteral)
         {
             var openBracket = this.Expect(TokenType.LeftSquare, b => b.ExpectedCharacter("["));
             var forKeyword = this.ExpectKeyword(LanguageConstants.ForKeyword);
@@ -931,7 +931,7 @@ namespace Bicep.Core.Parsing
                 TokenType.RightSquare, TokenType.NewLine);
             var closeBracket = this.WithRecovery(() => this.Expect(TokenType.RightSquare, b => b.ExpectedCharacter("]")), GetSuppressionFlag(body), TokenType.RightSquare, TokenType.NewLine);
 
-            return new ForSyntax(openBracket, forKeyword, itemVariable, inKeyword, expression, colon, body, closeBracket);
+            return new(openBracket, forKeyword, itemVariable, inKeyword, expression, colon, body, closeBracket);
         }
 
         private ForVariableBlockSyntax ForVariableBlock()

@@ -404,7 +404,7 @@ namespace Bicep.Core.Emit
 
             switch (parent)
             {
-                case ForSyntax @for when ReferenceEquals(@for.ItemVariable, localVariableSymbol.DeclaringLocalVariable):
+                case ForSyntax @for when ReferenceEquals(@for.VariableSection, localVariableSymbol.DeclaringLocalVariable):
                     // this is the "item" variable of a for-expression
                     // to emit this we need to basically index the array expression by the copyIndex() function
 

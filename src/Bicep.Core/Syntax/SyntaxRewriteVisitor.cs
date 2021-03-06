@@ -585,7 +585,7 @@ namespace Bicep.Core.Syntax
         {
             var hasChanges = Rewrite(syntax.OpenSquare, out var openSquare);
             hasChanges |= Rewrite(syntax.ForKeyword, out var forKeyword);
-            hasChanges |= Rewrite(syntax.ItemVariable, out var itemVariable);
+            hasChanges |= Rewrite(syntax.VariableSection, out var itemVariable);
             hasChanges |= Rewrite(syntax.InKeyword, out var inKeyword);
             hasChanges |= Rewrite(syntax.Expression, out var expression);
             hasChanges |= Rewrite(syntax.Colon, out var colon);

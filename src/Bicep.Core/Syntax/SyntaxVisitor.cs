@@ -204,7 +204,7 @@ namespace Bicep.Core.Syntax
         {
             this.Visit(syntax.OpenSquare);
             this.Visit(syntax.ForKeyword);
-            this.Visit(syntax.ItemVariable);
+            this.Visit(syntax.VariableSection);
             this.Visit(syntax.InKeyword);
             this.Visit(syntax.Expression);
             this.Visit(syntax.Colon);

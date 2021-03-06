@@ -139,7 +139,7 @@ namespace Bicep.Core.TypeSystem
                 var parent = this.binder.GetParent(syntax);
                 switch (parent)
                 {
-                    case ForSyntax @for when ReferenceEquals(syntax, @for.ItemVariable):
+                    case ForSyntax @for when ReferenceEquals(syntax, @for.VariableSection):
                         // this local variable is a loop item variable
                         // we should return item type of the array (if feasible)
 
@@ -168,7 +168,7 @@ namespace Bicep.Core.TypeSystem
             {
                 var errors = new List<ErrorDiagnostic>();
 
-                var loopItemType = typeManager.GetTypeInfo(syntax.ItemVariable);
+                var loopItemType = typeManager.GetTypeInfo(syntax.VariableSection);
                 CollectErrors(errors, loopItemType);
 
                 var arrayExpressionType = typeManager.GetTypeInfo(syntax.Expression);
