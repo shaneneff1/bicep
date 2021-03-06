@@ -212,6 +212,15 @@ namespace Bicep.Core.Syntax
             this.Visit(syntax.CloseSquare);
         }
 
+        public virtual void VisitForVariableBlockSyntax(ForVariableBlockSyntax syntax)
+        {
+            this.Visit(syntax.OpenParen);
+            this.Visit(syntax.ItemVariable);
+            this.Visit(syntax.Comma);
+            this.Visit(syntax.IndexVariable);
+            this.Visit(syntax.CloseParen);
+        }
+
         public virtual void VisitTernaryOperationSyntax(TernaryOperationSyntax syntax)
         {
             this.Visit(syntax.ConditionExpression);
